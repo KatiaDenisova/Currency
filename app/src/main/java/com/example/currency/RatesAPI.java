@@ -13,6 +13,6 @@ public interface RatesAPI  {
     @GET("XmlExRates.aspx?ondate=04.25.2019")
     Call<String> getRates();
 
-    @GET("XmlExRates.aspx?ondate=04.25.2019")
+    @GET("XmlExRates.aspx?ondate=04.26.2019")
     Single<Currencies> currencies();
 }
