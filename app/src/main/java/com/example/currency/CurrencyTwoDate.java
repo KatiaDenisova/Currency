@@ -1,5 +1,7 @@
 package com.example.currency;
 
+import java.util.Comparator;
+
 public class CurrencyTwoDate {
 
     private int id;
@@ -91,4 +93,13 @@ public class CurrencyTwoDate {
                 ", scale=" + scale +
                 '}';
     }
+
+    public static Comparator<CurrencyTwoDate> compareByChareChode = new Comparator<CurrencyTwoDate>() {
+        @Override
+        public int compare(CurrencyTwoDate o1, CurrencyTwoDate o2) {
+            return o1.charCode.compareTo(o2.charCode);
+        }
+    };
+
+
 }

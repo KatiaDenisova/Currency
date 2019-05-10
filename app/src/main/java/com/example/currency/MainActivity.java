@@ -8,6 +8,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -17,6 +19,8 @@ import java.util.Map;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Function;
+import io.reactivex.internal.util.SorterFunction;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -41,32 +45,45 @@ public class MainActivity extends AppCompatActivity {
         GlobalRetrofit globalRetrofit = (GlobalRetrofit) getApplicationContext();
 
         Single<Currencies> currencies1 = globalRetrofit.getApi().getCurrencies("04.26.2019");
-        Single<Currencies> currencies2 = globalRetrofit.getApi().getCurrencies("04.25.2019");
-        Single.zip(currencies1, currencies2, new BiFunction<Currencies, Currencies, List<CurrencyTwoDate>>() {
+        Single<Map<String, Double>> currencies2 = globalRetrofit.getApi().getCurrencies("04.25.2019")
+                .map(new Function<Currencies, Map<String, Double>>() {
+                    @Override
+                    public Map<String, Double> apply(Currencies currencies) throws Exception {
+                        Map<String, Double> hashMap = new HashMap<>();
+                        for (Currency currency : currencies.currencies) {
+                            hashMap.put(currency.getCharCode(), currency.getRateN());
+                        }
+                        return hashMap;
+                    }
+                });
+        Single.zip(currencies1, currencies2, new BiFunction<Currencies, Map<String, Double>, List<CurrencyTwoDate>>() {
             @Override
-            public List<CurrencyTwoDate> apply(Currencies currencies1, Currencies currencies2) throws Exception {
-                Map<String,Double> hashMap = new HashMap<>();
-                for(Currency currency: currencies2.currencies) {
-                    hashMap.put(currency.getCharCode(),currency.getRateN());
-                }
+            public List<CurrencyTwoDate> apply(Currencies currencies1, Map<String, Double> oldRates) throws Exception {
 
                 List<CurrencyTwoDate> currencyTwoDateList = new LinkedList<>();
-                for(Currency currency: currencies1.currencies) {
+                for (Currency currencyE : currencies1.currencies) {
                     CurrencyTwoDate currencyTwoDate = new CurrencyTwoDate();
-                    currencyTwoDate.setRateYesterday(hashMap.get(currency.getCharCode()));
-                    currencyTwoDate.setId(currency.getId());
-                    currencyTwoDate.setCharCode(currency.getCharCode());
-                    currencyTwoDate.setName(currency.getName());
-                    currencyTwoDate.setNumCode(currency.getNumCode());
-                    currencyTwoDate.setRateToday(currency.getRateN());
-                    currencyTwoDate.setScale(currency.getScale());
+                    currencyTwoDate.setRateYesterday(oldRates.get(currencyE.getCharCode()));
+                    currencyTwoDate.setId(currencyE.getId());
+                    currencyTwoDate.setCharCode(currencyE.getCharCode());
+                    currencyTwoDate.setName(currencyE.getName());
+                    currencyTwoDate.setNumCode(currencyE.getNumCode());
+                    currencyTwoDate.setRateToday(currencyE.getRateN());
+                    currencyTwoDate.setScale(currencyE.getScale());
                     currencyTwoDateList.add(currencyTwoDate);
                 }
 
-
+//                    Collections.sort(currencyTwoDateList, CurrencyTwoDate.compareByChareChode);
                 return currencyTwoDateList;
             }
-        }).subscribeOn(Schedulers.io())
+        }).map(new Function<List<CurrencyTwoDate>, List<CurrencyTwoDate>>() {
+            @Override
+            public List<CurrencyTwoDate> apply(List<CurrencyTwoDate> currencyTwoDates) throws Exception {
+                Collections.sort(currencyTwoDates, CurrencyTwoDate.compareByChareChode);
+                return currencyTwoDates;
+            }
+        })
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<List<CurrencyTwoDate>>() {
 
@@ -75,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onSuccess(List<CurrencyTwoDate> currencyTwoDates) {
                         Log.d("TAG", currencyTwoDates.toString());
                         currencyAdapter = new CurrenciesAdapter(currencyTwoDates);
-                      currencyList.setAdapter(currencyAdapter);
+                        currencyList.setAdapter(currencyAdapter);
                     }
 
                     @Override
