@@ -1,21 +1,21 @@
 package com.example.currency;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Observable;
 
 public class CurrenciesAdapter extends RecyclerView.Adapter<CurrenciesAdapter.CurrencyViewHolder> {
-    private List<Currency> currencyList;
+//    private List<Currency> currencyList;
+    private List<CurrencyTwoDate> currencyTwoDateList;
 
-    public CurrenciesAdapter(List<Currency> currencyList) {
-        this.currencyList = currencyList;
+    public CurrenciesAdapter(List<CurrencyTwoDate> currencyTwoDateList) {
+        this.currencyTwoDateList = currencyTwoDateList;
     }
 
     @NonNull
@@ -33,30 +33,35 @@ public class CurrenciesAdapter extends RecyclerView.Adapter<CurrenciesAdapter.Cu
 
     @Override
     public void onBindViewHolder(@NonNull CurrencyViewHolder currencyViewHolder, int i) {
-        currencyViewHolder.bind(currencyList.get(i));
+        currencyViewHolder.bind(currencyTwoDateList.get(i));
+
     }
 
     @Override
     public int getItemCount() {
-        return currencyList.size();
+        return currencyTwoDateList.size();
     }
 
     class CurrencyViewHolder extends RecyclerView.ViewHolder {
         TextView nameCurrency;
         TextView charCode;
-        TextView rate;
+        TextView rateToday;
+        TextView rateYesterday;
 
         public CurrencyViewHolder(@NonNull View itemView) {
             super(itemView);
             nameCurrency = itemView.findViewById(R.id.tv_nameCurrency);
             charCode = itemView.findViewById(R.id.tv_charCode);
-            rate = itemView.findViewById(R.id.tv_rate);
+            rateToday = itemView.findViewById(R.id.tv_rate);
+            rateYesterday = itemView.findViewById(R.id.tv_rateYesterday);
+
         }
 
-        void bind(Currency currency){
-            nameCurrency.setText(String.format("%s", currency.getName()));
-            charCode.setText(String.format("%s",currency.getCharCode()));
-            rate.setText(String.format("%f", currency.getRateN()));
+        void bind(CurrencyTwoDate currencyTwoDate){
+            nameCurrency.setText(String.format("%s", currencyTwoDate.getName()));
+            charCode.setText(String.format("%s",currencyTwoDate.getCharCode()));
+            rateToday.setText(String.format("%f", currencyTwoDate.getRateToday()));
+            rateYesterday.setText(String.format("%f",currencyTwoDate.getRateYesterday()));
         }
     }
 }
