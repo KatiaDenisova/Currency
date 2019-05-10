@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -32,15 +33,26 @@
 
         <TextView
             android:id="@+id/tv_rate"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="57dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:text="@string/Rate"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_rateYesterday"
+            app:layout_constraintStart_toEndOf="@+id/tv_rateYesterday" />
+
+        <TextView
+            android:id="@+id/tv_rateYesterday"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="57dp"
             android:layout_height="22dp"
             android:layout_marginStart="56dp"
             android:layout_marginLeft="56dp"
             android:layout_marginBottom="8dp"
-            style="@style/TextAppearance.AppCompat.Title"
             android:text="@string/Rate"
             app:layout_constraintBottom_toBottomOf="@+id/tv_nameCurrency"
             app:layout_constraintStart_toEndOf="@+id/tv_charCode" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
