@@ -72,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
                     currencyTwoDate.setScale(currencyE.getScale());
                     currencyTwoDateList.add(currencyTwoDate);
                 }
-
-//                    Collections.sort(currencyTwoDateList, CurrencyTwoDate.compareByChareChode);
                 return currencyTwoDateList;
             }
         }).map(new Function<List<CurrencyTwoDate>, List<CurrencyTwoDate>>() {
