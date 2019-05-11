@@ -2,7 +2,6 @@ package com.example.currency.network;
 
 import android.app.Application;
 
-import com.example.currency.network.RatesAPI;
 
 import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;

@@ -1,7 +1,6 @@
 package com.example.currency.model;
 
 import com.example.currency.network.GlobalRetrofit;
-import com.example.currency.presenter.PresentCurInterf;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,11 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
+
 
 public class DataFilter implements DataFilterInref {
     public DataFilter() {

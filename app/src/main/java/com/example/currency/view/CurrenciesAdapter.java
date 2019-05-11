@@ -14,7 +14,6 @@ import com.example.currency.model.CurrencyTwoDate;
 import java.util.List;
 
 public class CurrenciesAdapter extends RecyclerView.Adapter<CurrenciesAdapter.CurrencyViewHolder> {
-//    private List<Currency> currencyList;
     private List<CurrencyTwoDate> currencyTwoDateList;
 
     public CurrenciesAdapter(List<CurrencyTwoDate> currencyTwoDateList) {
