@@ -1,4 +1,4 @@
-package com.example.currency;
+package com.example.currency.model;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;

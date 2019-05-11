@@ -1,9 +1,8 @@
-package com.example.currency;
+package com.example.currency.network;
 
-import java.util.List;
+import com.example.currency.model.Currencies;
 
 import io.reactivex.Single;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 

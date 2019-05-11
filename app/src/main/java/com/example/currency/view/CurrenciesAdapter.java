@@ -1,4 +1,4 @@
-package com.example.currency;
+package com.example.currency.view;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.currency.R;
+import com.example.currency.model.CurrencyTwoDate;
 
 import java.util.List;
 
