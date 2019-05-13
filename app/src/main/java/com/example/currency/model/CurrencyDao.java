@@ -13,7 +13,7 @@ import io.reactivex.Single;
 @Dao
 public interface CurrencyDao {
     @Query("Select * from CurrencyTwoDate")
-    Single<List<CurrencyTwoDate>> getCurrencies();
+    List<CurrencyTwoDate> getCurrencies();
 
 //    @Query("Select * from CurrencyTwoDate where charCode =:charCode")
 //    CurrencyTwoDate getCurrency(String charCode);

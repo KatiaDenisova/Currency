@@ -18,6 +18,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class PresenterCurrency implements PresentCurInterf {
+    GlobalRetrofit globalRetrofit;
     DatabaseApp db;
     ViewCurrencyIntef vci;
     private String TAG = "PresenterCurrency";
@@ -28,6 +29,7 @@ public class PresenterCurrency implements PresentCurInterf {
 
     @Override
     public void getCurrencies(GlobalRetrofit globalRetrofit) {
+        db = globalRetrofit.getInstance().getDatabaseApp();
         DataFilter dataFilter = new DataFilter(globalRetrofit);
         dataFilter.getListCurTwoDay()
                 .subscribeOn(Schedulers.io())
@@ -39,7 +41,9 @@ public class PresenterCurrency implements PresentCurInterf {
                     public void onSuccess(List<CurrencyTwoDate> currencyTwoDates) {
                         Log.d(TAG, currencyTwoDates.toString());
                         vci.displayCurrencies(currencyTwoDates);
-                      //loadData(currencyTwoDates);
+
+                        CurrencyDao currencyDao = db.currencyDao().insertCurrencies(currencyTwoDates);
+                        Log.d("PRESENTER", "was success" + currencyDao.getCurrencies());
                     }
 
                     @Override
@@ -53,7 +57,6 @@ public class PresenterCurrency implements PresentCurInterf {
 
     @Override
     public void loadData(List<CurrencyTwoDate> currencyTwoDateList) {
-
         CurrencyDao currencyDao = db.currencyDao();
         currencyDao.insertCurrencies(currencyTwoDateList);
 
