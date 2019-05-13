@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements ViewCurrencyIntef
 
         GlobalRetrofit globalRetrofit = (GlobalRetrofit) getApplicationContext();
 
+
         setMVP();
         setUpViews();
         getCurrenciesList(globalRetrofit);

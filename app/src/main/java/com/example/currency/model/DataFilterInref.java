@@ -7,6 +7,6 @@ import java.util.List;
 import io.reactivex.Single;
 
 public interface DataFilterInref {
-    Single<List<CurrencyTwoDate>> getListCurTwoDay(GlobalRetrofit globalRetrofit);
+    Single<List<CurrencyTwoDate>> getListCurTwoDay();
 
 }

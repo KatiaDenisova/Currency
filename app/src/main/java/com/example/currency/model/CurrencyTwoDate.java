@@ -1,20 +1,25 @@
 package com.example.currency.model;
 
-import java.util.Comparator;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+import java.util.Comparator;
+@Entity(tableName = "CurrencyTwoDate")
 public class CurrencyTwoDate {
 
     private int id;
+    @PrimaryKey
     private String charCode;
     private String name;
     private double rateToday;
     private double rateYesterday;
     private int numCode;
     private int scale;
-
+    @Ignore
     public CurrencyTwoDate() {
     }
-
+    @Ignore
     public CurrencyTwoDate(int id, String charCode, String name, double rateToday, double rateYesterday, int numCode, int scale) {
         this.id = id;
         this.charCode = charCode;

@@ -1,8 +1,11 @@
 package com.example.currency.presenter;
 
 import android.util.Log;
+
+import com.example.currency.model.CurrencyDao;
 import com.example.currency.model.CurrencyTwoDate;
 import com.example.currency.model.DataFilter;
+import com.example.currency.model.DatabaseApp;
 import com.example.currency.network.GlobalRetrofit;
 import com.example.currency.view.ViewCurrencyIntef;
 
@@ -15,7 +18,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class PresenterCurrency implements PresentCurInterf {
-
+    DatabaseApp db;
     ViewCurrencyIntef vci;
     private String TAG = "PresenterCurrency";
 
@@ -25,8 +28,8 @@ public class PresenterCurrency implements PresentCurInterf {
 
     @Override
     public void getCurrencies(GlobalRetrofit globalRetrofit) {
-        DataFilter dataFilter = new DataFilter();
-        dataFilter.getListCurTwoDay(globalRetrofit)
+        DataFilter dataFilter = new DataFilter(globalRetrofit);
+        dataFilter.getListCurTwoDay()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<List<CurrencyTwoDate>>() {
@@ -36,6 +39,7 @@ public class PresenterCurrency implements PresentCurInterf {
                     public void onSuccess(List<CurrencyTwoDate> currencyTwoDates) {
                         Log.d(TAG, currencyTwoDates.toString());
                         vci.displayCurrencies(currencyTwoDates);
+                      //loadData(currencyTwoDates);
                     }
 
                     @Override
@@ -45,6 +49,19 @@ public class PresenterCurrency implements PresentCurInterf {
 
                     }
                 });
+    }
+
+    @Override
+    public void loadData(List<CurrencyTwoDate> currencyTwoDateList) {
+
+        CurrencyDao currencyDao = db.currencyDao();
+        currencyDao.insertCurrencies(currencyTwoDateList);
+
+    }
+
+    @Override
+    public void onClear() {
+
     }
 
 }

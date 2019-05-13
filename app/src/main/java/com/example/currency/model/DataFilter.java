@@ -15,11 +15,13 @@ import io.reactivex.functions.Function;
 
 
 public class DataFilter implements DataFilterInref {
-    public DataFilter() {
+    GlobalRetrofit globalRetrofit;
+    public DataFilter(GlobalRetrofit globalRetrofit) {
+        this.globalRetrofit=globalRetrofit;
     }
 
     @Override
-    public Single<List<CurrencyTwoDate>> getListCurTwoDay(GlobalRetrofit globalRetrofit) {
+    public Single<List<CurrencyTwoDate>> getListCurTwoDay() {
         Single<Currencies> currencies1 = globalRetrofit.getApi().getCurrencies("04.26.2019");
         Single<Map<String, Double>> currencies2 = globalRetrofit.getApi().getCurrencies("04.25.2019")
                 .map(new Function<Currencies, Map<String, Double>>() {
