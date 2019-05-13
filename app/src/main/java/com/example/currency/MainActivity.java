@@ -1,7 +1,10 @@
 package com.example.currency;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,13 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.currency.model.CurrencyTwoDate;
 import com.example.currency.network.GlobalRetrofit;
 import com.example.currency.presenter.PresenterCurrency;
+import com.example.currency.presenter.TestActivity;
 import com.example.currency.view.CurrenciesAdapter;
 import com.example.currency.view.ViewCurrencyIntef;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ViewCurrencyIntef {
-
+    private ImageButton tuning;
     private Toolbar toolbar;
     private String TAG = "Main Activity";
     private RecyclerView currencyList;
@@ -41,6 +45,14 @@ public class MainActivity extends AppCompatActivity implements ViewCurrencyIntef
         setMVP();
         setUpViews();
         getCurrenciesList(globalRetrofit);
+        tuning = findViewById(R.id.btInTuning);
+
+        tuning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, TestActivity.class));
+            }
+        });
 
     }
 
