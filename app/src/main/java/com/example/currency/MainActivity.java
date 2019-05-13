@@ -19,7 +19,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements ViewCurrencyIntef {
 
     private Toolbar toolbar;
-    private String TAG ="Main Activity";
+    private String TAG = "Main Activity";
     private RecyclerView currencyList;
     private CurrenciesAdapter currencyAdapter;
     private PresenterCurrency presenterCurrency;
@@ -63,12 +63,11 @@ public class MainActivity extends AppCompatActivity implements ViewCurrencyIntef
 
     @Override
     public void displayCurrencies(List<CurrencyTwoDate> listCur) {
-        if(listCur!=null) {
+        if (listCur != null) {
             currencyAdapter = new CurrenciesAdapter(listCur);
             currencyList.setAdapter(currencyAdapter);
-        }
-        else {
-            Log.d(TAG,"Currencies response null");
+        } else {
+            Log.d(TAG, "Currencies response null");
         }
     }
 

@@ -9,11 +9,12 @@ import java.util.List;
 @Root(name = "DailyExRates")
 public class Currencies {
 
-    @Attribute(name="Date")
+    @Attribute(name = "Date")
     public String date;
 
     @ElementList(inline = true)
     public List<Currency> currencies;
+
     public List<Currency> getCurrencies() {
         return currencies;
     }

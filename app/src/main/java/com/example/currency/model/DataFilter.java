@@ -12,8 +12,6 @@ import io.reactivex.Single;
 
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
-
-
 public class DataFilter implements DataFilterInref {
     GlobalRetrofit globalRetrofit;
     public DataFilter(GlobalRetrofit globalRetrofit) {

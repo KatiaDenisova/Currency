@@ -5,6 +5,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Comparator;
+
 @Entity(tableName = "CurrencyTwoDate")
 public class CurrencyTwoDate {
 
@@ -16,9 +17,11 @@ public class CurrencyTwoDate {
     private double rateYesterday;
     private int numCode;
     private int scale;
+
     @Ignore
     public CurrencyTwoDate() {
     }
+
     @Ignore
     public CurrencyTwoDate(int id, String charCode, String name, double rateToday, double rateYesterday, int numCode, int scale) {
         this.id = id;

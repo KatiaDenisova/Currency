@@ -4,9 +4,9 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-@Root(name ="Currency")
+@Root(name = "Currency")
 public class Currency {
-    @Attribute(name="Id")
+    @Attribute(name = "Id")
     private int id;
 
     @Element(name = "CharCode")
