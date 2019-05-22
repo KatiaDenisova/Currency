@@ -2,11 +2,11 @@ package com.example.currency.presenter;
 
 import android.util.Log;
 
+import com.example.currency.MainApp;
 import com.example.currency.model.CurrencyDao;
 import com.example.currency.model.CurrencyTwoDate;
 import com.example.currency.model.DataFilter;
 import com.example.currency.model.DatabaseApp;
-import com.example.currency.network.GlobalRetrofit;
 import com.example.currency.view.ViewCurrencyIntef;
 
 
@@ -18,7 +18,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class PresenterCurrency implements PresentCurInterf {
-    GlobalRetrofit globalRetrofit;
+    MainApp mainApp;
     DatabaseApp db;
     ViewCurrencyIntef vci;
     private String TAG = "PresenterCurrency";
@@ -28,9 +28,9 @@ public class PresenterCurrency implements PresentCurInterf {
     }
 
     @Override
-    public void getCurrencies(GlobalRetrofit globalRetrofit) {
-        db = globalRetrofit.getInstance().getDatabaseApp();
-        DataFilter dataFilter = new DataFilter(globalRetrofit);
+    public void getCurrencies(MainApp mainApp) {
+//        db = mainApp.getInstance().getDatabaseApp();
+        DataFilter dataFilter = new DataFilter(mainApp);
         dataFilter.getListCurTwoDay()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -39,11 +39,14 @@ public class PresenterCurrency implements PresentCurInterf {
 
                     @Override
                     public void onSuccess(List<CurrencyTwoDate> currencyTwoDates) {
+                        DatabaseApp databaseApp = MainApp.getInstance().getDatabaseApp();
+                        CurrencyDao currencyDao = databaseApp.currencyDao();
+                        if (currencyDao.getCurrencies() == null) {
+                            currencyDao.insertCurrencies(currencyTwoDates);
+                        } else currencyDao.updateCurrencies(currencyTwoDates);
                         Log.d(TAG, currencyTwoDates.toString());
                         vci.displayCurrencies(currencyTwoDates);
 
-                        CurrencyDao currencyDao = db.currencyDao().insertCurrencies(currencyTwoDates);
-                        Log.d("PRESENTER", "was success" + currencyDao.getCurrencies());
                     }
 
                     @Override

@@ -1,5 +1,6 @@
 package com.example.currency.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -10,6 +11,7 @@ import java.util.Comparator;
 public class CurrencyTwoDate {
 
     private int id;
+    @NonNull
     @PrimaryKey
     private String charCode;
     private String name;
@@ -18,11 +20,7 @@ public class CurrencyTwoDate {
     private int numCode;
     private int scale;
 
-    @Ignore
-    public CurrencyTwoDate() {
-    }
 
-    @Ignore
     public CurrencyTwoDate(int id, String charCode, String name, double rateToday, double rateYesterday, int numCode, int scale) {
         this.id = id;
         this.charCode = charCode;
@@ -32,6 +30,8 @@ public class CurrencyTwoDate {
         this.numCode = numCode;
         this.scale = scale;
     }
+
+
 
     public int getId() {
         return id;

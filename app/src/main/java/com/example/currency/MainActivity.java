@@ -11,10 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.currency.model.CurrencyDao;
 import com.example.currency.model.CurrencyTwoDate;
-import com.example.currency.model.DatabaseApp;
-import com.example.currency.network.GlobalRetrofit;
 import com.example.currency.presenter.PresenterCurrency;
 import com.example.currency.view.TestActivity;
 import com.example.currency.view.CurrenciesAdapter;
@@ -41,13 +38,13 @@ public class MainActivity extends AppCompatActivity implements ViewCurrencyIntef
         currencyList = findViewById(R.id.rv_currency);
 
 
-        GlobalRetrofit globalRetrofit = (GlobalRetrofit) getApplicationContext();
+        MainApp mainApp = (MainApp) getApplicationContext();
 
 
 
         setMVP();
         setUpViews();
-        getCurrenciesList(globalRetrofit);
+        getCurrenciesList(mainApp);
         tuning = findViewById(R.id.btInTuning);
 
         tuning.setOnClickListener(new View.OnClickListener() {
@@ -67,8 +64,8 @@ public class MainActivity extends AppCompatActivity implements ViewCurrencyIntef
         currencyList.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void getCurrenciesList(GlobalRetrofit globalRetrofit) {
-        presenterCurrency.getCurrencies(globalRetrofit);
+    private void getCurrenciesList(MainApp mainApp) {
+        presenterCurrency.getCurrencies(mainApp);
     }
 
     @Override
@@ -80,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements ViewCurrencyIntef
     public void displayCurrencies(List<CurrencyTwoDate> listCur) {
 
         if (listCur != null) {
-
             currencyAdapter = new CurrenciesAdapter(listCur);
             currencyList.setAdapter(currencyAdapter);
         } else {

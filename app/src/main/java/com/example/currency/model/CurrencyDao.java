@@ -22,7 +22,7 @@ public interface CurrencyDao {
     void insertCurrency(CurrencyTwoDate currencyTwoDate);
 
     @Insert
-    CurrencyDao insertCurrencies(List<CurrencyTwoDate> currencyTwoDateList);
+    void insertCurrencies(List<CurrencyTwoDate> currencyTwoDateList);
 
     @Update
     void updateCurrency(CurrencyTwoDate currencyTwoDate);

@@ -10,6 +10,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.currency.R;
@@ -50,13 +51,13 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
     class CurrencyViewHolder extends RecyclerView.ViewHolder {
         TextView nameCurrency;
         TextView charCode;
-        Switch aSwitch;
+        SwitchCompat aSwitch;
         ImageButton imageButton;
 
         public CurrencyViewHolder(@NonNull View itemView) {
             super(itemView);
-            nameCurrency = itemView.findViewById(R.id.tv_tuningCur);
-            charCode = itemView.findViewById(R.id.tv_nameTuning);
+            nameCurrency = itemView.findViewById(R.id.tv_nameTuning);
+            charCode = itemView.findViewById(R.id.tv_tuningCur);
             aSwitch = itemView.findViewById(R.id.switchTuning);
             imageButton = itemView.findViewById(R.id.imgBut);
         }

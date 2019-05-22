@@ -1,6 +1,6 @@
 package com.example.currency.model;
 
-import com.example.currency.network.GlobalRetrofit;
+import com.example.currency.MainApp;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,15 +13,15 @@ import io.reactivex.Single;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 public class DataFilter implements DataFilterInref {
-    GlobalRetrofit globalRetrofit;
-    public DataFilter(GlobalRetrofit globalRetrofit) {
-        this.globalRetrofit=globalRetrofit;
+    MainApp mainApp;
+    public DataFilter(MainApp mainApp) {
+        this.mainApp = mainApp;
     }
 
     @Override
     public Single<List<CurrencyTwoDate>> getListCurTwoDay() {
-        Single<Currencies> currencies1 = globalRetrofit.getApi().getCurrencies("04.26.2019");
-        Single<Map<String, Double>> currencies2 = globalRetrofit.getApi().getCurrencies("04.25.2019")
+        Single<Currencies> currencies1 = mainApp.getApi().getCurrencies("04.26.2019");
+        Single<Map<String, Double>> currencies2 = mainApp.getApi().getCurrencies("04.25.2019")
                 .map(new Function<Currencies, Map<String, Double>>() {
                     @Override
                     public Map<String, Double> apply(Currencies currencies) throws Exception {
@@ -39,14 +39,8 @@ public class DataFilter implements DataFilterInref {
 
                 List<CurrencyTwoDate> currencyTwoDateList = new LinkedList<>();
                 for (Currency currencyE : currencies1.currencies) {
-                    CurrencyTwoDate currencyTwoDate = new CurrencyTwoDate();
+                    CurrencyTwoDate currencyTwoDate = new CurrencyTwoDate(currencyE.getId(),currencyE.getCharCode(),currencyE.getName(),currencyE.getRateN(), oldRates.get(currencyE.getCharCode()),currencyE.getNumCode(), currencyE.getScale());
                     currencyTwoDate.setRateYesterday(oldRates.get(currencyE.getCharCode()));
-                    currencyTwoDate.setId(currencyE.getId());
-                    currencyTwoDate.setCharCode(currencyE.getCharCode());
-                    currencyTwoDate.setName(currencyE.getName());
-                    currencyTwoDate.setNumCode(currencyE.getNumCode());
-                    currencyTwoDate.setRateToday(currencyE.getRateN());
-                    currencyTwoDate.setScale(currencyE.getScale());
                     currencyTwoDateList.add(currencyTwoDate);
                 }
                 return currencyTwoDateList;

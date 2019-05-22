@@ -44,6 +44,7 @@ public static MainApp instance;
 
         databaseApp = Room.databaseBuilder(this, DatabaseApp.class,"database")
                 .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
                 .build();
 
     }
