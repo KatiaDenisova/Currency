@@ -19,19 +19,29 @@ public class CurrencyTwoDate {
     private double rateYesterday;
     private int numCode;
     private int scale;
+    private boolean show;
 
-
-    public CurrencyTwoDate(int id, String charCode, String name, double rateToday, double rateYesterday, int numCode, int scale) {
-        this.id = id;
-        this.charCode = charCode;
-        this.name = name;
-        this.rateToday = rateToday;
-        this.rateYesterday = rateYesterday;
-        this.numCode = numCode;
-        this.scale = scale;
+    public CurrencyTwoDate() {
     }
 
+//    public CurrencyTwoDate(int id, String charCode, String name, double rateToday, double rateYesterday, int numCode, int scale) {
+//        this.id = id;
+//        this.charCode = charCode;
+//        this.name = name;
+//        this.rateToday = rateToday;
+//        this.rateYesterday = rateYesterday;
+//        this.numCode = numCode;
+//        this.scale = scale;
+//    }
 
+
+    public boolean isShow() {
+        return show;
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
+    }
 
     public int getId() {
         return id;

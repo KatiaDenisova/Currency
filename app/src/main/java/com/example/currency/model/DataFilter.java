@@ -39,9 +39,25 @@ public class DataFilter implements DataFilterInref {
 
                 List<CurrencyTwoDate> currencyTwoDateList = new LinkedList<>();
                 for (Currency currencyE : currencies1.currencies) {
-                    CurrencyTwoDate currencyTwoDate = new CurrencyTwoDate(currencyE.getId(),currencyE.getCharCode(),currencyE.getName(),currencyE.getRateN(), oldRates.get(currencyE.getCharCode()),currencyE.getNumCode(), currencyE.getScale());
+//                    CurrencyTwoDate currencyTwoDate = new CurrencyTwoDate(
+//                            currencyE.getId(),currencyE.getCharCode(),
+//                            currencyE.getName(),currencyE.getRateN(),
+//                            oldRates.get(currencyE.getCharCode()),
+//                            currencyE.getNumCode(),
+//                            currencyE.getScale());
+//                    currencyTwoDate.setRateYesterday(oldRates.get(currencyE.getCharCode()));
+                    CurrencyTwoDate currencyTwoDate = new CurrencyTwoDate();
+                    currencyTwoDate.setId(currencyE.getId());
+                    currencyTwoDate.setCharCode(currencyE.getCharCode());
+                    currencyTwoDate.setName(currencyE.getName());
+                    currencyTwoDate.setRateToday(currencyE.getRateN());
                     currencyTwoDate.setRateYesterday(oldRates.get(currencyE.getCharCode()));
+                    currencyTwoDate.setNumCode(currencyE.getNumCode());
+                    currencyTwoDate.setScale(currencyE.getScale());
+                    currencyTwoDate.setShow(true);
+
                     currencyTwoDateList.add(currencyTwoDate);
+
                 }
                 return currencyTwoDateList;
             }

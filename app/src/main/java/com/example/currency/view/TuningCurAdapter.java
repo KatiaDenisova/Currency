@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -19,7 +20,10 @@ import com.example.currency.model.CurrencyTwoDate;
 import java.util.List;
 
 public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.CurrencyViewHolder> {
+
     private List<CurrencyTwoDate> currencyTwoDateList;
+    private OnItemCheckedChangeListener onItemCheckedChangeListener;
+
 
     public TuningCurAdapter(List<CurrencyTwoDate> currencyTwoDateList) {
         this.currencyTwoDateList = currencyTwoDateList;
@@ -40,12 +44,33 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
 
     @Override
     public void onBindViewHolder(@NonNull CurrencyViewHolder holder, int position) {
+
         holder.bind(currencyTwoDateList.get(position));
+        holder.aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int adapterPositin = holder.getAdapterPosition();
+                CurrencyTwoDate currencyTwoDate = currencyTwoDateList.get(adapterPositin);
+                currencyTwoDate.setShow(isChecked);
+                currencyTwoDateList.set(adapterPositin, currencyTwoDate);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return currencyTwoDateList.size();
+
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull CurrencyViewHolder holder) {
+        super.onViewRecycled(holder);
+        holder.aSwitch.setOnCheckedChangeListener(null);
+    }
+
+    public void setOnItemCheckedChangeListener(OnItemCheckedChangeListener onItemCheckedChangeListener) {
+        this.onItemCheckedChangeListener = onItemCheckedChangeListener;
     }
 
     class CurrencyViewHolder extends RecyclerView.ViewHolder {
@@ -53,6 +78,7 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
         TextView charCode;
         SwitchCompat aSwitch;
         ImageButton imageButton;
+        Boolean isTouched = true;
 
         public CurrencyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,6 +86,18 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
             charCode = itemView.findViewById(R.id.tv_tuningCur);
             aSwitch = itemView.findViewById(R.id.switchTuning);
             imageButton = itemView.findViewById(R.id.imgBut);
+
+            aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isTouched) {
+                        isTouched = true;
+                        if(isChecked!=true){
+//                            click.posClicked((short)getAdapterPosition());
+                        }
+                    }
+                }
+            });
         }
 
         void bind(CurrencyTwoDate currencyTwoDate) {
@@ -67,4 +105,9 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
             charCode.setText(String.format("%s",currencyTwoDate.getCharCode()));
         }
     }
+
+    interface OnItemCheckedChangeListener {
+        void onItemCheckedChanged(int position, boolean isChecked);
+    }
+
 }
