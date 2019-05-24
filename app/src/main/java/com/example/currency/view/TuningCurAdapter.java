@@ -24,9 +24,9 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
     private List<CurrencyTwoDate> currencyTwoDateList;
     private OnItemCheckedChangeListener onItemCheckedChangeListener;
 
-
-    public TuningCurAdapter(List<CurrencyTwoDate> currencyTwoDateList) {
+    public TuningCurAdapter(List<CurrencyTwoDate> currencyTwoDateList, OnItemCheckedChangeListener onItemCheckedChangeListener) {
         this.currencyTwoDateList = currencyTwoDateList;
+        this.onItemCheckedChangeListener = onItemCheckedChangeListener;
     }
 
     @NonNull
@@ -49,12 +49,20 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
         holder.aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                int adapterPositin = holder.getAdapterPosition();
-                CurrencyTwoDate currencyTwoDate = currencyTwoDateList.get(adapterPositin);
-                currencyTwoDate.setShow(isChecked);
-                currencyTwoDateList.set(adapterPositin, currencyTwoDate);
+                int adapterPosition = holder.getAdapterPosition();
+                if (onItemCheckedChangeListener != null) {
+                    onItemCheckedChangeListener.onItemCheckedChanged(adapterPosition, isChecked);
+                }
             }
         });
+    }
+
+    public CurrencyTwoDate getItem(int position) {
+        return currencyTwoDateList.get(position);
+    }
+
+    public void updateCurAdapter() {
+
     }
 
     @Override
@@ -87,22 +95,12 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
             aSwitch = itemView.findViewById(R.id.switchTuning);
             imageButton = itemView.findViewById(R.id.imgBut);
 
-            aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isTouched) {
-                        isTouched = true;
-                        if(isChecked!=true){
-//                            click.posClicked((short)getAdapterPosition());
-                        }
-                    }
-                }
-            });
         }
 
         void bind(CurrencyTwoDate currencyTwoDate) {
             nameCurrency.setText(String.format("%s", currencyTwoDate.getName()));
             charCode.setText(String.format("%s",currencyTwoDate.getCharCode()));
+            aSwitch.setChecked(currencyTwoDate.isShow());
         }
     }
 

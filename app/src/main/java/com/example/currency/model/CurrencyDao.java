@@ -8,15 +8,24 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 @Dao
 public interface CurrencyDao {
     @Query("Select * from CurrencyTwoDate")
-    List<CurrencyTwoDate> getCurrencies();
+    Flowable<List<CurrencyTwoDate>> getCurrencies();
+
+    @Query("Select * from CurrencyTwoDate")
+    List<CurrencyTwoDate> getCurrenciesList();
 
 //    @Query("Select * from CurrencyTwoDate where charCode =:charCode")
 //    CurrencyTwoDate getCurrency(String charCode);
+    @Query("Select * from CurrencyTwoDate where show = :show")
+    List<CurrencyTwoDate> getCurrenciesByShow(Boolean show);
+
+    @Query("Select * from CurrencyTwoDate where charCode = :charCode")
+    CurrencyTwoDate getCurrencyByCharCode(String charCode);
 
     @Insert
     void insertCurrency(CurrencyTwoDate currencyTwoDate);

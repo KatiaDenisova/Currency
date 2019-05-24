@@ -21,6 +21,9 @@ import com.example.currency.model.DatabaseApp;
 
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+
 public class TestActivity extends Activity {
     private Toolbar toolbar;
     private String TAG = "Test Activity";
@@ -39,35 +42,49 @@ public class TestActivity extends Activity {
         currencyList = findViewById(R.id.rv_currencyTuning);
         currencyList.setLayoutManager(new LinearLayoutManager(this));
 
-        showCurrencies(getCurrencies());
+//        showCurrencies(getCurrencies(getDaoCurrency()));
 
         switchCompat = findViewById(R.id.switchTuning);
+        showCurrencies();
+        getDaoCurrency().getCurrencies()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<CurrencyTwoDate>>() {
+                    @Override
+                    public void accept(List<CurrencyTwoDate> currencyTwoDateList) throws Exception {
 
-        tuningCurAdapter.setOnItemCheckedChangeListener(new TuningCurAdapter.OnItemCheckedChangeListener() {
-            @Override
-            public void onItemCheckedChanged(int position, boolean isChecked) {
-                if(isChecked!=true) {
-                    CurrencyTwoDate currencyTwoDate = getCurrencies().get(position);
-                    currencyTwoDate.setShow(false);
-                }
-            }
-        });
+                    }
+                });
+
+
 
     }
 
-    private List<CurrencyTwoDate> getCurrencies() {
+
+    private CurrencyDao getDaoCurrency(){
         DatabaseApp databaseApp = MainApp.getInstance().getDatabaseApp();
         CurrencyDao currencyDao = databaseApp.currencyDao();
-        List<CurrencyTwoDate> list = currencyDao.getCurrencies();
-        return list;
+        return currencyDao;
+    }
+//    private List<CurrencyTwoDate> getCurrencies(CurrencyDao currencyDao) {
+//        List<CurrencyTwoDate> list = currencyDao.getCurrencies();
+//        return list;
+//    }
+
+    private CurrencyTwoDate getCurrencyByCharCode(CurrencyDao currencyDao, String charCode) {
+       CurrencyTwoDate cur = currencyDao.getCurrencyByCharCode(charCode);
+        return cur;
     }
 
-
-    private void showCurrencies(List<CurrencyTwoDate> list) {
-
-            tuningCurAdapter = new TuningCurAdapter(list);
-            currencyList.setAdapter(tuningCurAdapter);
-
+    private void showCurrencies() {
+        tuningCurAdapter = new TuningCurAdapter(getDaoCurrency().getCurrenciesList(), new TuningCurAdapter.OnItemCheckedChangeListener() {
+            @Override
+            public void onItemCheckedChanged(int position, boolean isChecked) {
+                CurrencyTwoDate item = tuningCurAdapter.getItem(position);
+                item.setShow(isChecked);
+                getDaoCurrency().updateCurrency(item);
+            }
+        });
+        currencyList.setAdapter(tuningCurAdapter);
     }
 
     @Override

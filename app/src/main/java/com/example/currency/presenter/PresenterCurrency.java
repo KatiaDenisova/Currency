@@ -23,8 +23,8 @@ public class PresenterCurrency implements PresentCurInterf {
     ViewCurrencyIntef vci;
     private String TAG = "PresenterCurrency";
 
-    public PresenterCurrency(ViewCurrencyIntef vci) {
-        this.vci = vci;
+    public PresenterCurrency() {
+
     }
 
     @Override
@@ -39,20 +39,17 @@ public class PresenterCurrency implements PresentCurInterf {
 
                     @Override
                     public void onSuccess(List<CurrencyTwoDate> currencyTwoDates) {
-                        DatabaseApp databaseApp = MainApp.getInstance().getDatabaseApp();
-                        CurrencyDao currencyDao = databaseApp.currencyDao();
-                        if (currencyDao.getCurrencies() == null) {
-                            currencyDao.insertCurrencies(currencyTwoDates);
-                        } else currencyDao.updateCurrencies(currencyTwoDates);
-                        Log.d(TAG, currencyTwoDates.toString());
-                        vci.displayCurrencies(currencyTwoDates);
+
+//                        Log.d(TAG, currencyTwoDates.toString());
+//                        vci.displayCurrencies(currencyTwoDates);
+                        loadData(currencyTwoDates);
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        vci.displayError("Error fetching Currency Data ");
+//                        vci.displayError("Error fetching Currency Data ");
 
                     }
                 });
@@ -60,8 +57,11 @@ public class PresenterCurrency implements PresentCurInterf {
 
     @Override
     public void loadData(List<CurrencyTwoDate> currencyTwoDateList) {
-        CurrencyDao currencyDao = db.currencyDao();
-        currencyDao.insertCurrencies(currencyTwoDateList);
+        DatabaseApp databaseApp = MainApp.getInstance().getDatabaseApp();
+        CurrencyDao currencyDao = databaseApp.currencyDao();
+        if (currencyDao.getCurrencies() == null) {
+            currencyDao.insertCurrencies(currencyTwoDateList);
+        } else currencyDao.updateCurrencies(currencyTwoDateList);
 
     }
 
