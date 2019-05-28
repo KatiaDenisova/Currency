@@ -59,10 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
         setMVP();
         setUpViews();
-        getCurrenciesList(mainApp);
+//        getCurrenciesList(mainApp);
 //        getCurrenciesByDb(getDaoCurrency());
 //        showCur();
-        displayCurrencies(getCurrencies());
+//        displayCurrencies(getCurrencies());
+        updateData();
 
 
 
@@ -98,8 +99,23 @@ public class MainActivity extends AppCompatActivity {
         DatabaseApp databaseApp = MainApp.getInstance().getDatabaseApp();
         CurrencyDao currencyDao = databaseApp.currencyDao();
 //        List<CurrencyTwoDate> list = currencyDao.getCurrenciesByShow(true);
-        List<CurrencyTwoDate> list = currencyDao.getCurrenciesList();
+        List<CurrencyTwoDate> list = currencyDao.getCurrenciesByShow(true);
         return list;
+    }
+
+    private void updateData(){
+
+        DatabaseApp databaseApp = MainApp.getInstance().getDatabaseApp();
+        CurrencyDao currencyDao = databaseApp.currencyDao();
+        currencyDao.getCurrenciesByShowFlowable(true)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<CurrencyTwoDate>>() {
+                    @Override
+                    public void accept(List<CurrencyTwoDate> currencyTwoDateList) throws Exception {
+                        currencyAdapter = new CurrenciesAdapter(currencyTwoDateList);
+                        currencyList.setAdapter(currencyAdapter);
+                    }
+                });
     }
 
     private void showCur() {

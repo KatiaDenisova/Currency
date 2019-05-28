@@ -24,6 +24,9 @@ public interface CurrencyDao {
     @Query("Select * from CurrencyTwoDate where show = :show")
     List<CurrencyTwoDate> getCurrenciesByShow(Boolean show);
 
+    @Query("Select * from CurrencyTwoDate where show = :show")
+    Flowable<List<CurrencyTwoDate>> getCurrenciesByShowFlowable(Boolean show);
+
     @Query("Select * from CurrencyTwoDate where charCode = :charCode")
     CurrencyTwoDate getCurrencyByCharCode(String charCode);
 

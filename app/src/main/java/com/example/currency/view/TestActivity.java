@@ -47,7 +47,7 @@ public class TestActivity extends Activity {
 
         switchCompat = findViewById(R.id.switchTuning);
         showCurrencies();
-        getDaoCurrency().getCurrencies()
+        getDaoCurrency().getCurrenciesByShowFlowable(true)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<CurrencyTwoDate>>() {
                     @Override
