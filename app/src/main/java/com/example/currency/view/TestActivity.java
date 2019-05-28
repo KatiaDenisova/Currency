@@ -36,9 +36,10 @@ public class TestActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        toolbar = findViewById(R.id.toolbar2);
 
         setContentView(R.layout.activity_test);
+//        toolbar = findViewById(R.id.toolbar2);
+
         currencyList = findViewById(R.id.rv_currencyTuning);
         currencyList.setLayoutManager(new LinearLayoutManager(this));
 
@@ -51,6 +52,7 @@ public class TestActivity extends Activity {
                 .subscribe(new Consumer<List<CurrencyTwoDate>>() {
                     @Override
                     public void accept(List<CurrencyTwoDate> currencyTwoDateList) throws Exception {
+
 
                     }
                 });

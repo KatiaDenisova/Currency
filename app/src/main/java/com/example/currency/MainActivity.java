@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         setMVP();
         setUpViews();
         getCurrenciesList(mainApp);
+//        getCurrenciesByDb(getDaoCurrency());
+//        showCur();
         displayCurrencies(getCurrencies());
 
 
@@ -87,15 +89,25 @@ public class MainActivity extends AppCompatActivity {
         presenterCurrency.getCurrencies(mainApp);
     }
 
+    private void getCurrenciesByDb(CurrencyDao dao) {
+        presenterCurrency.getCurrenciesByDb(getDaoCurrency());
+    }
+
 
     private List<CurrencyTwoDate> getCurrencies() {
         DatabaseApp databaseApp = MainApp.getInstance().getDatabaseApp();
         CurrencyDao currencyDao = databaseApp.currencyDao();
-        List<CurrencyTwoDate> list = currencyDao.getCurrenciesByShow(true);
+//        List<CurrencyTwoDate> list = currencyDao.getCurrenciesByShow(true);
+        List<CurrencyTwoDate> list = currencyDao.getCurrenciesList();
         return list;
     }
 
-    public void displayCurrencies(List<CurrencyTwoDate> listCur) {
+    private void showCur() {
+        currencyAdapter = new CurrenciesAdapter(getDaoCurrency().getCurrenciesByShow(true));
+        currencyList.setAdapter(currencyAdapter);
+    }
+
+    private void displayCurrencies(List<CurrencyTwoDate> listCur) {
         if (listCur != null) {
             currencyAdapter = new CurrenciesAdapter(listCur);
             currencyList.setAdapter(currencyAdapter);
@@ -104,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private CurrencyDao getDaoCurrency(){
+        DatabaseApp databaseApp = MainApp.getInstance().getDatabaseApp();
+        CurrencyDao currencyDao = databaseApp.currencyDao();
+        return currencyDao;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
