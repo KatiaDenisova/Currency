@@ -19,6 +19,9 @@ public interface CurrencyDao {
     @Query("Select * from CurrencyTwoDate")
     List<CurrencyTwoDate> getCurrenciesList();
 
+    @Query("Select * from CurrencyTwoDate where place = :place")
+    CurrencyTwoDate getCurrencyByPlace(int place);
+
 //    @Query("Select * from CurrencyTwoDate where charCode =:charCode")
 //    CurrencyTwoDate getCurrency(String charCode);
     @Query("Select * from CurrencyTwoDate where show = :show")

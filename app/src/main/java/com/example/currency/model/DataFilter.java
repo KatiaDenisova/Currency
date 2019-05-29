@@ -38,16 +38,8 @@ public class DataFilter implements DataFilterInref {
             public List<CurrencyTwoDate> apply(Currencies currencies1, Map<String, Double> oldRates) throws Exception {
 
                 List<CurrencyTwoDate> currencyTwoDateList = new LinkedList<>();
-                int place = 0;
+
                 for (Currency currencyE : currencies1.currencies) {
-//                    CurrencyTwoDate currencyTwoDate = new CurrencyTwoDate(
-//                            currencyE.getId(),currencyE.getCharCode(),
-//                            currencyE.getName(),currencyE.getRateN(),
-//                            oldRates.get(currencyE.getCharCode()),
-//                            currencyE.getNumCode(),
-//                            currencyE.getScale());
-//                    currencyTwoDate.setRateYesterday(oldRates.get(currencyE.getCharCode()));
-                    place++;
                     CurrencyTwoDate currencyTwoDate = new CurrencyTwoDate();
                     currencyTwoDate.setId(currencyE.getId());
                     currencyTwoDate.setCharCode(currencyE.getCharCode());
@@ -57,7 +49,7 @@ public class DataFilter implements DataFilterInref {
                     currencyTwoDate.setNumCode(currencyE.getNumCode());
                     currencyTwoDate.setScale(currencyE.getScale());
                     currencyTwoDate.setShow(true);
-                    currencyTwoDate.setPlace(place);
+
 
 
                     currencyTwoDateList.add(currencyTwoDate);

@@ -60,7 +60,10 @@ public class PresenterCurrency implements PresentCurInterf {
         CurrencyDao currencyDao = databaseApp.currencyDao();
         if (currencyDao.getCurrencies() == null) {
             currencyDao.insertCurrencies(currencyTwoDateList);
-        } else currencyDao.updateCurrencies(currencyTwoDateList);
+        } else {
+            currencyDao.updateCurrencies(currencyTwoDateList);
+        }
+//        currencyDao.insertCurrencies(currencyTwoDateList);
 
     }
 

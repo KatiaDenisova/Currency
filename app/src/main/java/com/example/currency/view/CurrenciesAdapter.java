@@ -56,7 +56,6 @@ public class CurrenciesAdapter extends RecyclerView.Adapter<CurrenciesAdapter.Cu
             charCode = itemView.findViewById(R.id.tv_charCode);
             rateToday = itemView.findViewById(R.id.tv_rate);
             rateYesterday = itemView.findViewById(R.id.tv_rateYesterday);
-
         }
 
         void bind(CurrencyTwoDate currencyTwoDate){

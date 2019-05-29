@@ -3,7 +3,9 @@ package com.example.currency.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -26,11 +28,19 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
 
     private List<CurrencyTwoDate> currencyTwoDateList;
     private OnItemCheckedChangeListener onItemCheckedChangeListener;
-
+    private OnItemTouchedListener onItemTouchedListener;
+//
     public TuningCurAdapter(List<CurrencyTwoDate> currencyTwoDateList, OnItemCheckedChangeListener onItemCheckedChangeListener) {
         this.currencyTwoDateList = currencyTwoDateList;
         this.onItemCheckedChangeListener = onItemCheckedChangeListener;
     }
+
+//
+//    public TuningCurAdapter(List<CurrencyTwoDate> currencyTwoDateList, OnItemCheckedChangeListener onItemCheckedChangeListener, OnItemTouchedListener onItemTouchedListener) {
+//        this.currencyTwoDateList = currencyTwoDateList;
+//        this.onItemCheckedChangeListener = onItemCheckedChangeListener;
+//        this.onItemTouchedListener = onItemTouchedListener;
+//    }
 
     @NonNull
     @Override
@@ -58,14 +68,32 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
                 }
             }
         });
+//        holder.rowView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                int holderPos = holder.getLayoutPosition();
+//                if (event.getAction()== MotionEvent.ACTION_DOWN) {
+//                    Log.d("TuningCurAdapter", "ACTION_DOWN POS " + holderPos);
+//                    onItemTouchedListener.onItemTouchedChangePlace(holderPos);
+//                }
+//                return false;
+//            }
+//        });
     }
 
     public CurrencyTwoDate getItem(int position) {
         return currencyTwoDateList.get(position);
     }
 
-    public void updateCurAdapter() {
+    public List<CurrencyTwoDate> getItems() {
+        return currencyTwoDateList;
+    }
 
+    public int getItemPlace(int position){
+        return currencyTwoDateList.get(position).getPlace();
+    }
+
+    public void updateCurAdapter() {
     }
 
     @Override
@@ -114,6 +142,7 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
         SwitchCompat aSwitch;
         View rowView;
         ImageView dragImg;
+        TextView position;
 
 
         public CurrencyViewHolder(@NonNull View itemView) {
@@ -123,6 +152,7 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
             charCode = itemView.findViewById(R.id.tv_tuningCur);
             aSwitch = itemView.findViewById(R.id.switchTuning);
             dragImg = itemView.findViewById(R.id.imageView);
+            position = itemView.findViewById(R.id.tv_position);
 
 
         }
@@ -130,6 +160,7 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
         void bind(CurrencyTwoDate currencyTwoDate) {
             nameCurrency.setText(String.format("%s", currencyTwoDate.getName()));
             charCode.setText(String.format("%s",currencyTwoDate.getCharCode()));
+            position.setText(String.format("%s", currencyTwoDate.getPlace()));
             aSwitch.setChecked(currencyTwoDate.isShow());
         }
     }
@@ -138,4 +169,11 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
         void onItemCheckedChanged(int position, boolean isChecked);
     }
 
+    interface OnItemTouchedListener {
+        void onItemTouchedChangePlace(int fromHolderPos);
+    }
+
+    interface OnSwipeItemsListener {
+        void onSwipeItem(int fromHolderPos);
+    }
 }

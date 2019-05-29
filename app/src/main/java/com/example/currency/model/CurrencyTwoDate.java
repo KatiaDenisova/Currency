@@ -128,5 +128,11 @@ public class CurrencyTwoDate {
         }
     };
 
+    public static Comparator<CurrencyTwoDate> compareByPlace = new Comparator<CurrencyTwoDate>() {
+        @Override
+        public int compare(CurrencyTwoDate o1, CurrencyTwoDate o2) {
+            return Integer.compare(o1.place, o2.place);
+        }
+    };
 
 }

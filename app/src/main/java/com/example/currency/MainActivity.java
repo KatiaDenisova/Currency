@@ -22,10 +22,13 @@ import com.example.currency.view.TestActivity;
 import com.example.currency.view.CurrenciesAdapter;
 import com.example.currency.view.ViewCurrencyIntef;
 
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,8 +54,10 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        currencyList = findViewById(R.id.rv_currency);
 
+
+
+        currencyList = findViewById(R.id.rv_currency);
 
         MainApp mainApp = (MainApp) getApplicationContext();
 
@@ -89,8 +94,21 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseApp databaseApp = MainApp.getInstance().getDatabaseApp();
         CurrencyDao currencyDao = databaseApp.currencyDao();
-        currencyDao.getCurrenciesByShowFlowable(true)
+        currencyDao.getCurrencies()
                 .observeOn(AndroidSchedulers.mainThread())
+                .filter(new Predicate<List<CurrencyTwoDate>>() {
+                    @Override
+                    public boolean test(List<CurrencyTwoDate> currencyTwoDateList) throws Exception {
+                        return !currencyTwoDateList.contains(currencyDao.getCurrenciesByShow(true));
+                    }
+                })
+                .map(new Function<List<CurrencyTwoDate>, List<CurrencyTwoDate>>() {
+                    @Override
+                    public List<CurrencyTwoDate> apply(List<CurrencyTwoDate> currencyTwoDates) throws Exception {
+                        Collections.sort(currencyTwoDates, CurrencyTwoDate.compareByPlace);
+                        return currencyTwoDates;
+                    }
+                })
                 .subscribe(new Consumer<List<CurrencyTwoDate>>() {
                     @Override
                     public void accept(List<CurrencyTwoDate> currencyTwoDateList) throws Exception {
@@ -98,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                         currencyList.setAdapter(currencyAdapter);
                     }
                 });
+
     }
 
 
