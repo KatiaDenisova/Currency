@@ -20,6 +20,7 @@ public class CurrencyTwoDate {
     private int numCode;
     private int scale;
     private boolean show;
+    private int place;
 
     public CurrencyTwoDate() {
     }
@@ -97,6 +98,14 @@ public class CurrencyTwoDate {
 
     public void setRateYesterday(double rateYesterday) {
         this.rateYesterday = rateYesterday;
+    }
+
+    public int getPlace() {
+        return place;
+    }
+
+    public void setPlace(int place) {
+        this.place = place;
     }
 
     @Override

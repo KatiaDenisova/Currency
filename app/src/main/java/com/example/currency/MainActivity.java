@@ -59,22 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         setMVP();
         setUpViews();
-//        getCurrenciesList(mainApp);
-//        getCurrenciesByDb(getDaoCurrency());
-//        showCur();
-//        displayCurrencies(getCurrencies());
+        getCurrenciesList(mainApp);
         updateData();
-
-
-
-//        tuning = findViewById(R.id.btInTuning);
-//
-//        tuning.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this, TestActivity.class));
-//            }
-//        });
 
     }
 
@@ -90,15 +76,11 @@ public class MainActivity extends AppCompatActivity {
         presenterCurrency.getCurrencies(mainApp);
     }
 
-    private void getCurrenciesByDb(CurrencyDao dao) {
-        presenterCurrency.getCurrenciesByDb(getDaoCurrency());
-    }
 
 
     private List<CurrencyTwoDate> getCurrencies() {
         DatabaseApp databaseApp = MainApp.getInstance().getDatabaseApp();
         CurrencyDao currencyDao = databaseApp.currencyDao();
-//        List<CurrencyTwoDate> list = currencyDao.getCurrenciesByShow(true);
         List<CurrencyTwoDate> list = currencyDao.getCurrenciesByShow(true);
         return list;
     }
@@ -118,25 +100,6 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void showCur() {
-        currencyAdapter = new CurrenciesAdapter(getDaoCurrency().getCurrenciesByShow(true));
-        currencyList.setAdapter(currencyAdapter);
-    }
-
-    private void displayCurrencies(List<CurrencyTwoDate> listCur) {
-        if (listCur != null) {
-            currencyAdapter = new CurrenciesAdapter(listCur);
-            currencyList.setAdapter(currencyAdapter);
-        } else {
-            Log.d(TAG, "Currencies response null");
-        }
-    }
-
-    private CurrencyDao getDaoCurrency(){
-        DatabaseApp databaseApp = MainApp.getInstance().getDatabaseApp();
-        CurrencyDao currencyDao = databaseApp.currencyDao();
-        return currencyDao;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

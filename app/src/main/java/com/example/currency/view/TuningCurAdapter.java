@@ -2,11 +2,13 @@ package com.example.currency.view;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -17,9 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.currency.R;
 import com.example.currency.model.CurrencyTwoDate;
 
+import java.util.Collections;
 import java.util.List;
 
-public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.CurrencyViewHolder> {
+public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.CurrencyViewHolder> implements ItemMoveCallback.ItemTouchHelperContract {
 
     private List<CurrencyTwoDate> currencyTwoDateList;
     private OnItemCheckedChangeListener onItemCheckedChangeListener;
@@ -81,19 +84,46 @@ public class TuningCurAdapter extends RecyclerView.Adapter<TuningCurAdapter.Curr
         this.onItemCheckedChangeListener = onItemCheckedChangeListener;
     }
 
-    class CurrencyViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onRowMoved(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(currencyTwoDateList, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(currencyTwoDateList, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onRowSelected(CurrencyViewHolder myViewHolder) {
+        myViewHolder.rowView.setBackgroundColor(Color.YELLOW);
+    }
+
+    @Override
+    public void onRowClear(CurrencyViewHolder myViewHolder) {
+        myViewHolder.rowView.setBackgroundColor(Color.WHITE);
+    }
+
+    public class  CurrencyViewHolder extends RecyclerView.ViewHolder {
         TextView nameCurrency;
         TextView charCode;
         SwitchCompat aSwitch;
-        ImageButton imageButton;
-        Boolean isTouched = true;
+        View rowView;
+        ImageView dragImg;
+
 
         public CurrencyViewHolder(@NonNull View itemView) {
             super(itemView);
+            rowView = itemView;
             nameCurrency = itemView.findViewById(R.id.tv_nameTuning);
             charCode = itemView.findViewById(R.id.tv_tuningCur);
             aSwitch = itemView.findViewById(R.id.switchTuning);
-            imageButton = itemView.findViewById(R.id.imgBut);
+            dragImg = itemView.findViewById(R.id.imageView);
+
 
         }
 

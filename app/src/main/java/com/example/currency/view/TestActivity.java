@@ -9,6 +9,7 @@ import android.widget.Toolbar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,24 +39,22 @@ public class TestActivity extends Activity {
 
 
         setContentView(R.layout.activity_test);
-//        toolbar = findViewById(R.id.toolbar2);
 
         currencyList = findViewById(R.id.rv_currencyTuning);
         currencyList.setLayoutManager(new LinearLayoutManager(this));
 
-//        showCurrencies(getCurrencies(getDaoCurrency()));
 
         switchCompat = findViewById(R.id.switchTuning);
         showCurrencies();
-        getDaoCurrency().getCurrenciesByShowFlowable(true)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<CurrencyTwoDate>>() {
-                    @Override
-                    public void accept(List<CurrencyTwoDate> currencyTwoDateList) throws Exception {
-
-
-                    }
-                });
+//        getDaoCurrency().getCurrenciesByShowFlowable(true)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Consumer<List<CurrencyTwoDate>>() {
+//                    @Override
+//                    public void accept(List<CurrencyTwoDate> currencyTwoDateList) throws Exception {
+//
+//
+//                    }
+//                });
 
 
 
@@ -67,15 +66,7 @@ public class TestActivity extends Activity {
         CurrencyDao currencyDao = databaseApp.currencyDao();
         return currencyDao;
     }
-//    private List<CurrencyTwoDate> getCurrencies(CurrencyDao currencyDao) {
-//        List<CurrencyTwoDate> list = currencyDao.getCurrencies();
-//        return list;
-//    }
 
-    private CurrencyTwoDate getCurrencyByCharCode(CurrencyDao currencyDao, String charCode) {
-       CurrencyTwoDate cur = currencyDao.getCurrencyByCharCode(charCode);
-        return cur;
-    }
 
     private void showCurrencies() {
         tuningCurAdapter = new TuningCurAdapter(getDaoCurrency().getCurrenciesList(), new TuningCurAdapter.OnItemCheckedChangeListener() {
@@ -86,6 +77,9 @@ public class TestActivity extends Activity {
                 getDaoCurrency().updateCurrency(item);
             }
         });
+        ItemTouchHelper.Callback callback = new ItemMoveCallback(tuningCurAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(currencyList);
         currencyList.setAdapter(tuningCurAdapter);
     }
 
