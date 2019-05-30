@@ -16,6 +16,8 @@ public interface CurrencyDao {
     @Query("Select * from CurrencyTwoDate")
     Flowable<List<CurrencyTwoDate>> getCurrencies();
 
+
+
     @Query("Select * from CurrencyTwoDate")
     List<CurrencyTwoDate> getCurrenciesList();
 

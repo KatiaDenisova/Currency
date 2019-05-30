@@ -20,6 +20,10 @@ public class CurrenciesAdapter extends RecyclerView.Adapter<CurrenciesAdapter.Cu
         this.currencyTwoDateList = currencyTwoDateList;
     }
 
+    public void setCurrencyTwoDateList(List<CurrencyTwoDate> currencyTwoDateList) {
+        this.currencyTwoDateList = currencyTwoDateList;
+    }
+
     @NonNull
     @Override
     public CurrencyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

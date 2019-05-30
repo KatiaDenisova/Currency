@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.currency.model.CurrencyDao;
 import com.example.currency.model.CurrencyTwoDate;
 import com.example.currency.model.DatabaseApp;
+import com.example.currency.presenter.CurrencyView;
 import com.example.currency.presenter.PresenterCurrency;
 import com.example.currency.view.TestActivity;
 import com.example.currency.view.CurrenciesAdapter;
@@ -30,7 +31,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CurrencyView, ViewCurrencyIntef {
 
     private Toolbar toolbar;
     private String TAG = "Main Activity";
@@ -65,12 +66,12 @@ public class MainActivity extends AppCompatActivity {
         setMVP();
         setUpViews();
         getCurrenciesList(mainApp);
-        updateData();
+        updateCurrenciesList();
 
     }
 
     private void setMVP() {
-        presenterCurrency = new PresenterCurrency();
+        presenterCurrency = new PresenterCurrency(this);
     }
 
     private void setUpViews() {
@@ -81,42 +82,8 @@ public class MainActivity extends AppCompatActivity {
         presenterCurrency.getCurrencies(mainApp);
     }
 
-
-
-    private List<CurrencyTwoDate> getCurrencies() {
-        DatabaseApp databaseApp = MainApp.getInstance().getDatabaseApp();
-        CurrencyDao currencyDao = databaseApp.currencyDao();
-        List<CurrencyTwoDate> list = currencyDao.getCurrenciesByShow(true);
-        return list;
-    }
-
-    private void updateData(){
-
-        DatabaseApp databaseApp = MainApp.getInstance().getDatabaseApp();
-        CurrencyDao currencyDao = databaseApp.currencyDao();
-        currencyDao.getCurrencies()
-                .observeOn(AndroidSchedulers.mainThread())
-                .filter(new Predicate<List<CurrencyTwoDate>>() {
-                    @Override
-                    public boolean test(List<CurrencyTwoDate> currencyTwoDateList) throws Exception {
-                        return !currencyTwoDateList.contains(currencyDao.getCurrenciesByShow(true));
-                    }
-                })
-                .map(new Function<List<CurrencyTwoDate>, List<CurrencyTwoDate>>() {
-                    @Override
-                    public List<CurrencyTwoDate> apply(List<CurrencyTwoDate> currencyTwoDates) throws Exception {
-                        Collections.sort(currencyTwoDates, CurrencyTwoDate.compareByPlace);
-                        return currencyTwoDates;
-                    }
-                })
-                .subscribe(new Consumer<List<CurrencyTwoDate>>() {
-                    @Override
-                    public void accept(List<CurrencyTwoDate> currencyTwoDateList) throws Exception {
-                        currencyAdapter = new CurrenciesAdapter(currencyTwoDateList);
-                        currencyList.setAdapter(currencyAdapter);
-                    }
-                });
-
+    private void updateCurrenciesList(){
+        presenterCurrency.updateDataCurrencies();
     }
 
 
@@ -127,6 +94,28 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         return true;
+    }
+
+    @Override
+    public void showData(List<CurrencyTwoDate> list) {
+        currencyAdapter = new CurrenciesAdapter(list);
+        currencyList.setAdapter(currencyAdapter);
+    }
+
+    @Override
+    public void showToast(String str) {
+
+    }
+
+    @Override
+    public void displayCurrencies(List<CurrencyTwoDate> listCur) {
+        currencyAdapter.setCurrencyTwoDateList(listCur);
+        currencyList.setAdapter(currencyAdapter);
+    }
+
+    @Override
+    public void displayError(String str) {
+
     }
 }
 

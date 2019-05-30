@@ -3,7 +3,10 @@ package com.example.currency;
 import android.app.Application;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.Room;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.currency.model.DatabaseApp;
 import com.example.currency.network.RatesAPI;
